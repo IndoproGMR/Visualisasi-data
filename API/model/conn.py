@@ -16,10 +16,8 @@ def connect_to_mysql():
         )
 
         if connection.is_connected():
-            # print("Berhasil terhubung ke database MySQL")
             return connection
         else:
-            # print("Gagal terhubung ke database MySQL")
             return None
 
     except mysql.connector.Error as err:
@@ -30,14 +28,28 @@ def connect_to_mysql():
 def close_mysql_connection(connection):
     if connection:
         connection.close()
-        # print("Koneksi ke MySQL ditutup")
+
+
+def getDatabyQuery(connection,query:str,closedb=True):
+        cursor = connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+
+        # close connection
+        cursor.close()
+
+        if closedb:
+            close_mysql_connection(connection)
+
+        return results
 
 
 # Contoh penggunaan
 # if __name__ == "__main__":
-    # db_connection = connect_to_mysql()
+    # db = connect_to_mysql()
 
     # Lakukan operasi-operasi database di sini
 
-    # Tutup koneksi setelah selesai
-    # close_mysql_connection(db_connection)
+    # query = "SELECT `Occupation`,COUNT(*) as total FROM `Sleep_health_and_lifestyle_dataset` GROUP BY `Occupation`;"
+    # results = getDatabyQuery(db,query)
+    # print(results)

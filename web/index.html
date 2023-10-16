@@ -17,7 +17,7 @@
         var xValues = [];
         var yValues = [];
 
-        const api = new API_lib("http://127.0.0.1:8000");
+        const api = new API_lib("https://API.indoprogmr.my.id");
 
         (async () => {
             const data = await api.get("/api/Occupation");
@@ -27,7 +27,7 @@
             });
 
             // Setelah data dimasukkan, buat grafik
-            new Chart("myChart", {
+            const chart = new Chart("myChart", {
                 type: "bar",
                 data: {
                     labels: xValues,
@@ -43,6 +43,20 @@
                     title: {
                         display: true,
                         text: "Pekerjaan",
+                    },
+                    // event: ["click"],
+                    onClick: (e) => {
+                        console.log(e);
+                        const canvasPosition =
+                            Chart.helpers.getRelativePosition(e, chart);
+                        console.log(canvasPosition.x);
+                        // Substitute the appropriate scale IDs
+                        // const dataX = chart.scales.x.getValueForPixel(
+                        //     canvasPosition.x
+                        // );
+                        // const dataY = chart.scales.y.getValueForPixel(
+                        //     canvasPosition.y
+                        // );
                     },
                 },
             });

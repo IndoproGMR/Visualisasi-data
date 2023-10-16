@@ -1,8 +1,9 @@
-from typing import Union
 from fastapi import FastAPI
 from model.conn import connect_to_mysql, close_mysql_connection
 from pprint import pprint
 from fastapi.middleware.cors import CORSMiddleware
+
+from model.Occupation import *
 
 
 app = FastAPI()
@@ -27,26 +28,8 @@ def read_root():
 
 @app.get("/api/Occupation")
 def Occupation():
-    db = connect_to_mysql()
+    return CountOccupation()
 
-    if db:
-
-        # pprint(db)
-        cursor = db.cursor()
-
-        query = "SELECT `Occupation`,COUNT(*) as total FROM `Sleep_health_and_lifestyle_dataset` GROUP BY `Occupation`;"
-
-        cursor.execute(query)
-        results = cursor.fetchall()
-        cursor.close()
-        close_mysql_connection(db)
-
-        json_results = [{"X": row[0], "Y": row[1]}
-                        for row in results]
-
-        return json_results
-
-    return {"message": "Gagal terhubung ke database MySQL"}
 
 
 @app.get("/test/conn")
@@ -56,4 +39,3 @@ def test_conn():
     if db:
 
         return {"message": "Terhubung ke database MySQL"}
-    return {"message": "Gagal terhubung ke database MySQL"}

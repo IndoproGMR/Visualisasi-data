@@ -1,5 +1,10 @@
-.env
 __pycache__
+.env
 .vscode
-test/*
+
+runapp
+
 etc/*
+!etc/.gitkeep
+log/*
+!log/.gitkeep
