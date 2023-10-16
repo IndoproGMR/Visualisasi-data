@@ -9,10 +9,10 @@ def connect_to_mysql():
     try:
         # Konfigurasi koneksi ke MySQL
         connection = mysql.connector.connect(
-            host=os.getenv('host'),
-            user=os.getenv('user'),
-            password=os.getenv('password'),
-            database=os.getenv('database'),
+            host=os.getenv('database.host'),
+            user=os.getenv('database.user'),
+            password=os.getenv('database.password'),
+            database=os.getenv('database.database'),
         )
 
         if connection.is_connected():

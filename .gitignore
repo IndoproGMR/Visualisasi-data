@@ -1,5 +1,5 @@
-text/*
-etc/*
 .env
 __pycache__
 .vscode
+test/*
+etc/*
