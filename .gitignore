@@ -8,3 +8,6 @@ etc/*
 !etc/.gitkeep
 log/*
 !log/.gitkeep
+# web/dash
+# web/vendor
+# web/index-*
