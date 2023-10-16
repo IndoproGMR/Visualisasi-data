@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  </head>
+  <body>
+    <canvas id="myChart" style="width: 100%; max-width: 700px"></canvas>
+  </body>
+
+  <script>
+    var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+    var yValues = [55, 49, 44, 24, 15];
+
+    fetch("http://127.0.0.1:8000/api/Occupation")
+      .then((response) => response.json())
+      .then(function (data) {
+        console.log(data);
+        // Memasukkan data X dan Y dari respons ke dalam array
+        data.forEach((dataa) => {
+          xValues.push(dataa.X);
+          yValues.push(dataa.Y);
+        });
+
+        // Setelah data dimasukkan, buat grafik
+        new Chart("myChart", {
+          type: "bar",
+          data: {
+            labels: xValues,
+            datasets: [
+              {
+                data: yValues,
+              },
+            ],
+          },
+          options: {
+            legend: { display: false },
+            title: {
+              display: true,
+              text: "Pekerjaan",
+            },
+          },
+        });
+      })
+      .catch((err) => console.error(err));
+  </script>
+</html>
