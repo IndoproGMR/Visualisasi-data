@@ -30,20 +30,6 @@ def close_mysql_connection(connection):
         connection.close()
 
 
-def getDatabyQuery(connection,query:str,closedb=True):
-        cursor = connection.cursor()
-        cursor.execute(query)
-        results = cursor.fetchall()
-
-        # close connection
-        cursor.close()
-
-        if closedb:
-            close_mysql_connection(connection)
-
-        return results
-
-
 # Contoh penggunaan
 # if __name__ == "__main__":
     # db = connect_to_mysql()
