@@ -1,9 +1,9 @@
-from fastapi import FastAPI
-from model.conn import connect_to_mysql, close_mysql_connection
-from pprint import pprint
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from model.Occupation import *
+# from config.conn import *
+
+from model.Occupation import CountOccupation, bySleepDuration
 
 
 app = FastAPI()
@@ -21,21 +21,17 @@ app.add_middleware(
 )
 
 
+# Route
 @app.get("/")
-def read_root():
-    return {"Hello": "World"}
+def read_root(request: Request):
+    return {
+        "client_host": request.client.host,  # type: ignore
+        "client_Port": request.client.port,  # type: ignore
+        "request_url": request.url.path,
+    }
+    # return {"Hello": "World"}
 
 
 @app.get("/api/Occupation")
 def Occupation():
     return CountOccupation()
-
-
-
-@app.get("/test/conn")
-def test_conn():
-    db = connect_to_mysql()
-
-    if db:
-
-        return {"message": "Terhubung ke database MySQL"}
