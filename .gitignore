@@ -7,8 +7,9 @@ runapp
 etc/*
 log/*
 
-# web/dash
-web/vendor
+web/css/dash
+web/js/vendor
+web/js/demo
 web/index-*
 **.zip
 **.rar
