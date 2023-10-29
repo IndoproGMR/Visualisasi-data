@@ -1,0 +1,62 @@
+{% extends "Template/layout.html" %} {% block content %}
+<h1>html test</h1>
+<a href="{{ url_for('img',path='/favicon.ico') }}">img</a>
+<br />
+<a href="/">img</a>
+<br />
+{{ data[0].test }} {% endblock %} {% block jsF %}
+<script>
+    const url = "Occupation/Count";
+
+    var xValues = [];
+    var yValues = [];
+
+    const api = new API_lib("http://127.0.0.1:8000");
+    // const api = new API_lib("https://API.indoprogmr.my.id");
+
+    (async () => {
+        const data = await api.get(url);
+        data.forEach((dataa) => {
+            xValues.push(dataa.X);
+            yValues.push(dataa.Y);
+        });
+
+        // Setelah data dimasukkan, buat grafik
+        const chart = new Chart("myChart", {
+            type: "bar",
+            data: {
+                labels: xValues,
+                datasets: [
+                    {
+                        data: yValues,
+                    },
+                ],
+            },
+
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: "Pekerjaan",
+                },
+                // event: ["click"],
+                onClick: (e) => {
+                    console.log(e);
+                    const canvasPosition = Chart.helpers.getRelativePosition(
+                        e,
+                        chart
+                    );
+                    console.log(canvasPosition.x);
+                    // Substitute the appropriate scale IDs
+                    // const dataX = chart.scales.x.getValueForPixel(
+                    //     canvasPosition.x
+                    // );
+                    // const dataY = chart.scales.y.getValueForPixel(
+                    //     canvasPosition.y
+                    // );
+                },
+            },
+        });
+    })();
+</script>
+{% endblock %}

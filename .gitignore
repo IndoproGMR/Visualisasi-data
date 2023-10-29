@@ -5,9 +5,11 @@ __pycache__
 runapp
 
 etc/*
-!etc/.gitkeep
 log/*
-!log/.gitkeep
-web/dash
+
+# web/dash
 web/vendor
 web/index-*
+**.zip
+**.rar
+!**.gitkeep

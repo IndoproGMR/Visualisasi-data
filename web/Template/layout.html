@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include '/Template/head.html' %} {% block style %} {% endblock %}
+    <body>
+        <div id="wrapper">
+            {% include '/Template/sidebar.html' %}
+            <div id="content-wrapper" class="d-flex flex-column">
+                <div id="content">
+                    {% include '/Template/navbar.html' %}
+                    <div class="container-fluid">
+                        {% block content %} no view {% endblock %}
+                    </div>
+                </div>
+                {% include '/Template/footer.html' %}
+            </div>
+        </div>
+    </body>
+    {% block jsF %} {% endblock %}
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ url_for('js',path='/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('js',path='/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ url_for('js',path='/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ url_for('js',path='/sb-admin-2.min.js') }}"></script>
+</html>
