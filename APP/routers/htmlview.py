@@ -14,5 +14,10 @@ router = APIRouter(
 @router.get("/", response_class=HTMLResponse)
 async def root(request: Request):
     data = [{"test": "isi data"}]
-    return view(request, "view/test.html", data)
-    # return Occupation.CountOccupation()
+    # return view(request, "view/test.html", data)
+    return view(request, "view/index.html", data)
+
+
+@router.get("/Occupation", response_class=HTMLResponse)
+async def Pekerjaan(request: Request):
+    return view(request, "view/Pekerjaan.html")
