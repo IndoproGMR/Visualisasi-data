@@ -2,8 +2,9 @@
 content %}
 <!-- <h1>Index.html</h1> -->
 
-<!-- div.kontenerChart>div.columns>div.row>div.Chart>div.ChartHeader>h6>a{ini untuk -->
-<!-- Header}^^div.chartCanvas>canvas#myCanvas^div.Keterangan{ini untuk Keterangan} -->
+<!-- div.kontenerChart>div.columns>div.row>div.Chart>div.ChartHeader>h6>a{ini -->
+<!-- untukHeader}^^div.chartCanvas>canvas#myCanvas^div.Keterangan{ini untuk -->
+<!-- Keterangan} -->
 
 <div class="kontenerChart">
     <div class="columns">
@@ -62,6 +63,16 @@ content %}
         <div class="row">
             <div class="Chart">
                 <div class="ChartHeader">
+                    <h6><a href="/QualityofSleep">QualityofSleep</a></h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="QualityofSleep"></canvas>
+                </div>
+                <div class="Keterangan">ini untuk Keterangan</div>
+            </div>
+
+            <div class="Chart">
+                <div class="ChartHeader">
                     <h6><a href="/Gender">Gender</a></h6>
                 </div>
                 <div class="chartCanvas">
@@ -70,16 +81,6 @@ content %}
                 <div class="Keterangan">
                     Dari Dataset kita terdapat hampir 50/50 Pada Ke 2 Gander
                 </div>
-            </div>
-
-            <div class="Chart">
-                <div class="ChartHeader">
-                    <h6><a href="/QualityofSleep">QualityofSleep</a></h6>
-                </div>
-                <div class="chartCanvas">
-                    <canvas id="QualityofSleep"></canvas>
-                </div>
-                <div class="Keterangan">ini untuk Keterangan</div>
             </div>
         </div>
 
@@ -110,6 +111,18 @@ content %}
         <div class="row">
             <div class="Chart bigChart">
                 <div class="ChartHeader">
+                    <h6><a href="/DailySteps">DailySteps</a></h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="DailySteps"></canvas>
+                </div>
+                <div class="Keterangan">ini untuk Keterangan</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
                     <h6><a href="/BloodPressure">BloodPressure</a></h6>
                 </div>
                 <div class="chartCanvas">
@@ -118,35 +131,63 @@ content %}
                 <div class="Keterangan">ini untuk Keterangan</div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
+                    <h6><a href="/SleepDisorder">SleepDisorder</a></h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="SleepDisorder"></canvas>
+                </div>
+                <div class="Keterangan">
+                    Dari Dataset kita terdapat hampir 50/50 Pada Ke 2 Gander
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 {% endblock %} {% block jsF %}
 <script>
-    const api = new API_lib("https://API.indoprogmr.my.id");
-    var xValues = [];
-    var yValues = [];
-    var BGcolor = [];
-
     document.addEventListener("DOMContentLoaded", function () {
         const api = new API_lib("https://API.indoprogmr.my.id");
 
         const apiURL = [
             "Gender",
             "pie",
+
             "Age",
             "bar",
+
             "Occupation",
             "bar",
+
             "SleepDuration",
             "bar",
+
             "QualityofSleep",
             "bar",
+
             "PhysicalActivityLevel",
             "bar",
+
             "StressLevel",
             "bar",
+
             "BMICategory",
+            "pie",
+
+            "BloodPressure",
+            "bar",
+
+            "HeartRate",
+            "bar",
+
+            "DailySteps",
+            "bar",
+
+            "SleepDisorder",
             "pie",
         ];
 
@@ -189,28 +230,23 @@ content %}
                     labels: xValues,
                     datasets: [
                         {
-                            label: "test",
+                            label: chartId,
                             data: yValues,
                             backgroundColor: BGcolor,
                         },
                     ],
                 },
                 options: {
-                    indexAxis: "y",
-                    legend: { display: true },
+                    legend: {
+                        display:
+                            chartType === "pie" || chartType === "doughnut",
+                    },
                     title: {
                         display: true,
                         text: chartId,
                     },
                 },
             });
-        }
-
-        function dynamicColors() {
-            const r = Math.floor(Math.random() * 255);
-            const g = Math.floor(Math.random() * 255);
-            const b = Math.floor(Math.random() * 255);
-            return `rgba(${r}, ${g}, ${b}, 0.5)`;
         }
     });
 </script>

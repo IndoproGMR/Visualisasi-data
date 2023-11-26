@@ -1,35 +1,15 @@
 {% extends "Template/layout.html" %} {% block content %}
-<h1>Index.html</h1>
-<!-- 
-<div class="container-fluid">
-    <div class="row">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Pekerjaan</h6>
-            </div>
-            <div class="card-body">
-                <div class="chart-bar">
-                    <canvas id="myChart"></canvas>
+<div class="kontenerChart">
+    <div class="columns">
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
+                    <h6><a href="/">Pekerjaan Dengan Sleep</a></h6>
                 </div>
-                <hr />
-                Styling for the bar chart can be found in the <code>/js/demo/chart-bar-demo.js</code> file.
-            </div>
-        </div>
-    </div>
-</div> -->
-<div class="container-fluid">
-    <div class="row">
-        <div class="card shadow">
-            <div class="card-header">
-                <h6 class="m-0 font-weight-bold text-primary">Pekerjaan</h6>
-            </div>
-            <div class="card-body">
-                <div class="chart-bar">
-                    <canvas id="myChart"></canvas>
+                <div class="chartCanvas">
+                    <canvas id="myCanvas"></canvas>
                 </div>
-                <hr />
-                Styling for the bar chart can be found in the
-                <code>/js/demo/chart-bar-demo.js</code> file.
+                <div class="Keterangan">ini untuk Keterangan</div>
             </div>
         </div>
     </div>
@@ -37,64 +17,80 @@
 
 {% endblock %} {% block jsF %}
 <script>
-    const url = "Occupation/Count";
+    const url = "Occupation/OccupationWithSleepDisorder";
 
-    var xValues = [];
-    var yValues = [];
     var BGcolor = [];
+
+    var labelData = [];
+    var Insomnia = [];
+    var None = [];
+    var SleepApnea = [];
 
     const api = new API_lib("https://API.indoprogmr.my.id");
 
     async function GetData() {
-        xValues = [];
-        yValues = [];
-        BGcolor = [];
+        labelData = [];
+        Insomnia = [];
+        None = [];
+        SleepApnea = [];
 
         const data = await api.get(url);
         data.forEach((dataa) => {
-            xValues.push(dataa.X);
-            yValues.push(dataa.Y);
-            BGcolor.push(dynamicColors());
+            labelData.push(dataa.Lable);
+            Insomnia.push(dataa.Insomnia);
+            None.push(dataa.None);
+            SleepApnea.push(dataa.SleepApnea);
         });
+
+        for (let index = 0; index <= 2; index++) {
+            BGcolor.push(dynamicColors());
+        }
 
         LoadChar();
     }
 
     function LoadChar() {
-        console.log(xValues);
-        console.log(yValues);
-        console.log(BGcolor);
         // Setelah data dimasukkan, buat grafik
-        const chart = new Chart("myChart", {
+        const chart = new Chart("myCanvas", {
             type: "bar",
             data: {
-                labels: xValues,
+                labels: labelData,
                 datasets: [
                     {
-                        label: "test",
-                        data: yValues,
-                        backgroundColor: BGcolor,
+                        label: "Insomnia",
+                        data: Insomnia,
+                        backgroundColor: BGcolor[0],
+                        borderWidth: 1,
+                    },
+                    {
+                        label: "No Sleep Disorder",
+                        data: None,
+                        backgroundColor: BGcolor[1],
+                        borderWidth: 1,
+                    },
+                    {
+                        label: "Sleep Apnea",
+                        data: SleepApnea,
+                        backgroundColor: BGcolor[2],
                         borderWidth: 1,
                     },
                 ],
             },
 
             options: {
-                indexAxis: "y",
-                legend: { display: false },
                 title: {
                     display: true,
                     text: "Pekerjaan",
                 },
-                // event: ["click"],
-                // onClick: (e) => {
-                //     console.log(e);
-                //     const canvasPosition = Chart.helpers.getRelativePosition(
-                //         e,
-                //         chart
-                //     );
-                //     console.log(canvasPosition.x);
-                // },
+                responsive: true,
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true,
+                    },
+                },
             },
         });
 

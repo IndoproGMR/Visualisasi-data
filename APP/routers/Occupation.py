@@ -10,6 +10,6 @@ router = APIRouter(
 )
 
 
-@router.get("/Count")
-async def count():
-    return Occupation.CountOccupation()
+@router.get("/OccupationWithSleepDisorder")
+async def OccupationWithSleepDisorder():
+    return Occupation.OccupationWithSleepDisorder()
