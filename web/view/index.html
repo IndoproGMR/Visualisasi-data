@@ -1,3 +1,217 @@
-{% extends "Template/layout.html" %} {% block content %}
-<h1>Index.html</h1>
+{% extends "Template/layout.html" %} {% block style %} {% endblock %} {% block
+content %}
+<!-- <h1>Index.html</h1> -->
+
+<!-- div.kontenerChart>div.columns>div.row>div.Chart>div.ChartHeader>h6>a{ini untuk -->
+<!-- Header}^^div.chartCanvas>canvas#myCanvas^div.Keterangan{ini untuk Keterangan} -->
+
+<div class="kontenerChart">
+    <div class="columns">
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
+                    <h6><a href="/Age">Umur Dari Semua Orang</a></h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="Age"></canvas>
+                </div>
+                <div class="Keterangan">ini untuk Keterangan</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
+                    <h6><a href="/Occupation">Ini adalah Header</a></h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="Occupation"></canvas>
+                </div>
+                <div class="Keterangan">ini untuk Keterangan</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
+                    <h6><a href="/SleepDuration">SleepDuration</a></h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="SleepDuration"></canvas>
+                </div>
+                <div class="Keterangan">ini untuk Keterangan</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
+                    <h6>
+                        <a href="/PhysicalActivityLevel"
+                            >PhysicalActivityLevel</a
+                        >
+                    </h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="PhysicalActivityLevel"></canvas>
+                </div>
+                <div class="Keterangan">ini untuk Keterangan</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="Chart">
+                <div class="ChartHeader">
+                    <h6><a href="/Gender">Gender</a></h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="Gender"></canvas>
+                </div>
+                <div class="Keterangan">
+                    Dari Dataset kita terdapat hampir 50/50 Pada Ke 2 Gander
+                </div>
+            </div>
+
+            <div class="Chart">
+                <div class="ChartHeader">
+                    <h6><a href="/QualityofSleep">QualityofSleep</a></h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="QualityofSleep"></canvas>
+                </div>
+                <div class="Keterangan">ini untuk Keterangan</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
+                    <h6><a href="/StressLevel">StressLevel</a></h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="StressLevel"></canvas>
+                </div>
+                <div class="Keterangan">ini untuk Keterangan</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
+                    <h6><a href="/BMICategory">BMICategory</a></h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="BMICategory"></canvas>
+                </div>
+                <div class="Keterangan">ini untuk Keterangan</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
+                    <h6><a href="/BloodPressure">BloodPressure</a></h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="BloodPressure"></canvas>
+                </div>
+                <div class="Keterangan">ini untuk Keterangan</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %} {% block jsF %}
+<script>
+    const api = new API_lib("https://API.indoprogmr.my.id");
+    var xValues = [];
+    var yValues = [];
+    var BGcolor = [];
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const api = new API_lib("https://API.indoprogmr.my.id");
+
+        const apiURL = [
+            "Gender",
+            "pie",
+            "Age",
+            "bar",
+            "Occupation",
+            "bar",
+            "SleepDuration",
+            "bar",
+            "QualityofSleep",
+            "bar",
+            "PhysicalActivityLevel",
+            "bar",
+            "StressLevel",
+            "bar",
+            "BMICategory",
+            "pie",
+        ];
+
+        async function GetData() {
+            try {
+                for (let i = 0; i < apiURL.length; i += 2) {
+                    const dataURL = apiURL[i];
+                    const chartType = apiURL[i + 1];
+
+                    const dataResponse = await api.get(`/Count/${dataURL}`);
+                    const xValues = [];
+                    const yValues = [];
+                    const BGcolor = [];
+
+                    dataResponse.forEach((data) => {
+                        xValues.push(data.X);
+                        yValues.push(data.Y);
+                        BGcolor.push(dynamicColors());
+                    });
+
+                    LoadChart(xValues, yValues, BGcolor, dataURL, chartType);
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
+        GetData();
+
+        function LoadChart(xValues, yValues, BGcolor, chartId, chartType) {
+            const chartCanvas = document.getElementById(chartId);
+            if (!chartCanvas) {
+                console.error(`Canvas element with ID ${chartId} not found.`);
+                return;
+            }
+
+            const chart = new Chart(chartCanvas.getContext("2d"), {
+                type: chartType,
+                data: {
+                    labels: xValues,
+                    datasets: [
+                        {
+                            label: "test",
+                            data: yValues,
+                            backgroundColor: BGcolor,
+                        },
+                    ],
+                },
+                options: {
+                    indexAxis: "y",
+                    legend: { display: true },
+                    title: {
+                        display: true,
+                        text: chartId,
+                    },
+                },
+            });
+        }
+
+        function dynamicColors() {
+            const r = Math.floor(Math.random() * 255);
+            const g = Math.floor(Math.random() * 255);
+            const b = Math.floor(Math.random() * 255);
+            return `rgba(${r}, ${g}, ${b}, 0.5)`;
+        }
+    });
+</script>
 {% endblock %}

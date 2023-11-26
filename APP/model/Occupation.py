@@ -4,7 +4,7 @@ from APP.model.baseModel import *
 def CountOccupation():
     db = connect_to_mysql()
     if db:
-        query = "SELECT `Occupation`,COUNT(*) as total FROM `Sleep_health_and_lifestyle_dataset` GROUP BY `Occupation`;"
+        query = "SELECT `Occupation`,COUNT(*) as total FROM `Sleep_health_and_lifestyle_dataset` GROUP BY `Occupation` ORDER BY total DESC;"
 
         results = getDatabyQuery(db, query)
 
