@@ -1,0 +1,102 @@
+{% extends "Template/layout.html" %} {% block content %}
+<div class="kontenerChart">
+    <div class="columns">
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
+                    <h6><a href="#">Korelasi Quality dengan lama Tidur</a></h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="myCanvas"></canvas>
+                </div>
+                <div class="Keterangan">
+                    Dapat Dilihat pada Titik Hitam dimana Korelasi lebih
+                    terlihat
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %} {% block jsF %}
+<script>
+    const url = "SleepQuality/QualityWithDuration";
+    const api = new API_lib("https://API.indoprogmr.my.id");
+
+    var xValues = [];
+    var yValues = [];
+    var BGcolor = [];
+
+    function dynamicColors() {
+        const r = Math.floor(Math.random() * 255);
+        const g = Math.floor(Math.random() * 255);
+        const b = Math.floor(Math.random() * 255);
+        return `rgba(${r}, ${g}, ${b}, 0.5)`;
+    }
+
+    async function GetData() {
+        xValues = [];
+        yValues = [];
+        BGcolor = [];
+
+        const dataResponse = await api.get(url);
+        dataResponse.forEach((data) => {
+            xValues.push(data.X);
+            yValues.push(data.Y);
+            BGcolor.push(dynamicColors());
+        });
+
+        LoadChar(xValues, yValues, BGcolor);
+    }
+
+    function LoadChar(xValues, yValues, BGcolor) {
+        // Setelah data dimasukkan, buat grafik
+        const chart = new Chart("myCanvas", {
+            type: "scatter",
+            data: {
+                datasets: [
+                    {
+                        label: "Sleep Quality with Duration",
+                        data: xValues.map((x, index) => ({
+                            x,
+                            y: yValues[index],
+                            backgroundColor: BGcolor[index],
+                        })),
+                        pointRadius: 8, // Adjust the size of the points
+                    },
+                ],
+            },
+
+            options: {
+                // title: {
+                //     display: true,
+                //     text: "Sleep Quality with Duration",
+                // },
+
+                responsive: true,
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: "Test",
+                        },
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Test",
+                        },
+                    },
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+            },
+        });
+    }
+
+    GetData();
+</script>
+{% endblock %}
