@@ -21,3 +21,8 @@ async def root(request: Request):
 @router.get("/Occupation", response_class=HTMLResponse)
 async def Pekerjaan(request: Request):
     return view(request, "view/Pekerjaan.html")
+
+
+@router.get("/SleepQuality", response_class=HTMLResponse)
+async def SleepQuality(request: Request):
+    return view(request, "view/SleepQuality.html")

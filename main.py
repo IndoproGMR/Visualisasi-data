@@ -6,6 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from APP.routers import Occupation
 from APP.routers import htmlview
 from APP.routers import Index_Counts
+from APP.routers import SleepQuality
 
 
 app = FastAPI()
@@ -26,3 +27,4 @@ app.add_middleware(
 app.include_router(Occupation.router)
 app.include_router(htmlview.router)
 app.include_router(Index_Counts.router)
+app.include_router(SleepQuality.router)
