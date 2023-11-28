@@ -13,3 +13,8 @@ router = APIRouter(
 @router.get("/OccupationWithSleepDisorder")
 async def OccupationWithSleepDisorder():
     return Occupation.OccupationWithSleepDisorder()
+
+
+@router.get("/OccupationWithPhysicalActivityLevel")
+async def OccupationWithPhysicalActivityLevel():
+    return Occupation.OccupationWithPhysicalActivityLevel()

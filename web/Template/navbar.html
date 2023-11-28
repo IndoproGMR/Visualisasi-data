@@ -10,6 +10,10 @@
         <i class="fa fa-bars"></i>
     </button>
 
+    <div>
+        <p id="refreshChart">refresh Chart</p>
+    </div>
+
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -51,3 +55,17 @@
     </ul>
 </nav>
 <!-- End of Topbar -->
+<script>
+    const refreshChart = document.getElementById("refreshChart");
+
+    refreshChart.addEventListener("click", () => {
+        GetData();
+    });
+</script>
+
+<style>
+    p#refreshChart {
+        cursor: pointer;
+        /* background-color: red; */
+    }
+</style>

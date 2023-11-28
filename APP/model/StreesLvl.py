@@ -8,8 +8,6 @@ def StresswithBMI():
 
         results = getDatabyQuery(db, query)
 
-        pprint(results)
-
         json_results = [
             {
                 "Lable": row[0],

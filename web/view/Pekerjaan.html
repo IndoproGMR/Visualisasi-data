@@ -4,24 +4,51 @@
         <div class="row">
             <div class="Chart bigChart">
                 <div class="ChartHeader">
-                    <h6><a href="/">Pekerjaan Dengan Sleep</a></h6>
+                    <h6><a href="/">Jumlah Pekerjaan Yang di Interview</a></h6>
                 </div>
                 <div class="chartCanvas">
                     <canvas id="Occupation"></canvas>
                 </div>
-                <div class="Keterangan">ini untuk Keterangan</div>
+                <div class="Keterangan">
+                    Untuk data Kita Masi Belum Terlalu Menggambarkan Pekerjaan
+                    yang sesungguh nya karena kurang nya data
+                </div>
             </div>
         </div>
 
         <div class="row">
             <div class="Chart bigChart">
                 <div class="ChartHeader">
-                    <h6><a href="/">Pekerjaan Dengan Sleep</a></h6>
+                    <h6>
+                        <a href="/"
+                            >Pekerjaan Yang Memiliki Resiko Gangguan Tidur</a
+                        >
+                    </h6>
                 </div>
                 <div class="chartCanvas">
                     <canvas id="myCanvas"></canvas>
                 </div>
-                <div class="Keterangan">ini untuk Keterangan</div>
+                <div class="Keterangan">
+                    Pada Graft di atas terlihat Jelas Bahwa Pekerjaan yang Lebih
+                    <i>demanding</i> akan meikan resiko pada Gangguan Tidur
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
+                    <h6>
+                        <a href="/">Score Physical Activity Dengan Pekerjaan</a>
+                    </h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="OccupationWithPhysicalActivityLevel"></canvas>
+                </div>
+                <div class="Keterangan">
+                    Pada Graft di atas Menunjukan bahwa Pekerjaan yang
+                    Memerlukan Physical Activity yang lebih <i>demanding</i>
+                </div>
             </div>
         </div>
     </div>
@@ -42,6 +69,10 @@
     var yOccupation = [];
     var BGcolorOccupation = [];
 
+    var xOccupationWithPhysicalActivityLevel = [];
+    var yOccupationWithPhysicalActivityLevel = [];
+    var BGcolorOccupationWithPhysicalActivityLevel = [];
+
     const api = new API_lib("https://API.indoprogmr.my.id");
 
     async function GetData() {
@@ -53,6 +84,10 @@
         xOccupation = [];
         yOccupation = [];
         BGcolorOccupation = [];
+
+        xOccupationWithPhysicalActivityLevel = [];
+        yOccupationWithPhysicalActivityLevel = [];
+        BGcolorOccupationWithPhysicalActivityLevel = [];
 
         const data = await api.get(url);
         data.forEach((dataa) => {
@@ -69,7 +104,16 @@
             BGcolorOccupation.push(dynamicColors());
         });
 
-        for (let index = 0; index <= 2; index++) {
+        const dataResponseOccupationWithPhysicalActivityLevel = await api.get(
+            "Occupation/OccupationWithPhysicalActivityLevel"
+        );
+        dataResponseOccupationWithPhysicalActivityLevel.forEach((data) => {
+            xOccupationWithPhysicalActivityLevel.push(data.X);
+            yOccupationWithPhysicalActivityLevel.push(data.Y);
+            BGcolorOccupationWithPhysicalActivityLevel.push(dynamicColors());
+        });
+
+        for (let index = 0; index <= 10; index++) {
             BGcolor.push(dynamicColors());
         }
 
@@ -105,10 +149,6 @@
             },
 
             options: {
-                title: {
-                    display: true,
-                    text: "Pekerjaan",
-                },
                 responsive: true,
                 scales: {
                     x: {
@@ -127,7 +167,8 @@
                 labels: xOccupation,
                 datasets: [
                     {
-                        label: "Sleep Quality with Duration",
+                        label: "Banyak yang di Interview",
+                        // label: "Sleep Quality with Duration",
                         data: yOccupation,
                         backgroundColor: BGcolorOccupation,
                     },
@@ -135,36 +176,38 @@
             },
 
             options: {
-                responsive: true,
+                // responsive: true,
 
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: (tooltipItem, data) => {
-                                const dataset =
-                                    data.datasets[tooltipItem.datasetIndex];
-                                const total = dataset.data.reduce(
-                                    (accumulator, currentValue) =>
-                                        accumulator + currentValue,
-                                    0
-                                );
-                                const currentValue =
-                                    dataset.data[tooltipItem.index];
-                                const percentage = Math.round(
-                                    (currentValue / total) * 100
-                                );
-                                return `${
-                                    data.labels[tooltipItem.index]
-                                }: ${percentage}%`;
-                            },
-                        },
-                    },
+                legend: {
+                    display: false,
                 },
             },
         });
+
+        const chartOccupationWithPhysicalActivityLevel = new Chart(
+            "OccupationWithPhysicalActivityLevel",
+            {
+                type: "bar",
+                data: {
+                    labels: xOccupationWithPhysicalActivityLevel,
+                    datasets: [
+                        {
+                            label: "Score Physical Activity",
+                            data: yOccupationWithPhysicalActivityLevel,
+                            backgroundColor:
+                                BGcolorOccupationWithPhysicalActivityLevel,
+                        },
+                    ],
+                },
+
+                options: {
+                    // responsive: true,
+                    legend: {
+                        display: false,
+                    },
+                },
+            }
+        );
 
         // chart.update();
         // chart.reset();

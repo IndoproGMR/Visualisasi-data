@@ -4,12 +4,20 @@
         <div class="row">
             <div class="Chart bigChart">
                 <div class="ChartHeader">
-                    <h6><a href="/">Pekerjaan Dengan Sleep</a></h6>
+                    <h6>
+                        <a href="/"
+                            >Stress Level pada dan Physical Activity Level</a
+                        >
+                    </h6>
                 </div>
                 <div class="chartCanvas">
                     <canvas id="myCanvas"></canvas>
                 </div>
-                <div class="Keterangan">ini untuk Keterangan</div>
+                <div class="Keterangan">
+                    Pada Chart ini dapat di perhatikan bahwa Physical Activity
+                    Level Perperan Penting pada Tingkat Stress namun dapat
+                    terlihat juga bahwa Overweight Lebih Rentang Terkena Stress
+                </div>
             </div>
         </div>
     </div>
@@ -52,7 +60,7 @@
             NormalWeight.push(dataa.NormalWeight);
         });
 
-        for (let index = 0; index <= 3; index++) {
+        for (let index = 0; index <= 10; index++) {
             BGcolor.push(dynamicColors());
         }
 

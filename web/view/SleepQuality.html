@@ -4,14 +4,19 @@
         <div class="row">
             <div class="Chart bigChart">
                 <div class="ChartHeader">
-                    <h6><a href="#">Korelasi Quality dengan lama Tidur</a></h6>
+                    <h6>
+                        <a href="#"
+                            >Jumlah yang yang tidur dalam waktu Tertentu</a
+                        >
+                    </h6>
                 </div>
                 <div class="chartCanvas">
                     <canvas id="QualityofSleep"></canvas>
                 </div>
                 <div class="Keterangan">
-                    Dapat Dilihat pada Titik Hitam dimana Korelasi lebih
-                    terlihat
+                    Dapat Dilihat pada graft dimana rata2 tidur dalam jangka
+                    waktu 8 dan 6 jam sehari
+                    <!-- , tapi ada juga yang tidur hanya 5 dan 4 jam sehari -->
                 </div>
             </div>
         </div>
@@ -26,7 +31,8 @@
                 </div>
                 <div class="Keterangan">
                     Dapat Dilihat pada Titik Hitam dimana Korelasi lebih
-                    terlihat
+                    terlihat bahwa yang tidur kurang dari 8 jam sehari memiliki
+                    kualitas yang kurang dan dapat menimbulkan masalah tidur
                 </div>
             </div>
         </div>
@@ -87,7 +93,8 @@
             data: {
                 datasets: [
                     {
-                        label: "Sleep Quality with Duration",
+                        label: "asd",
+                        // label: "Sleep Quality with Duration",
                         data: xValues.map((x, index) => ({
                             x,
                             y: yValues[index],
@@ -119,10 +126,8 @@
                         },
                     },
                 },
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
+                legend: {
+                    display: false,
                 },
             },
         });
@@ -133,7 +138,7 @@
                 labels: xQualityofSleep,
                 datasets: [
                     {
-                        label: "Sleep Quality with Duration",
+                        label: "Jumlah yang yang Tidur dalam Jam",
                         data: yQualityofSleep,
                         backgroundColor: BGcolorQualityofSleep,
                     },
@@ -148,10 +153,8 @@
 
                 responsive: true,
 
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
+                legend: {
+                    display: false,
                 },
             },
         });
