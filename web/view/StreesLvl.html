@@ -1,0 +1,115 @@
+{% extends "Template/layout.html" %} {% block content %}
+<div class="kontenerChart">
+    <div class="columns">
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
+                    <h6><a href="/">Pekerjaan Dengan Sleep</a></h6>
+                </div>
+                <div class="chartCanvas">
+                    <canvas id="myCanvas"></canvas>
+                </div>
+                <div class="Keterangan">ini untuk Keterangan</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %} {% block jsF %}
+<script>
+    const url = "Stress/StresswithBMI";
+
+    var BGcolor = [];
+
+    var labelData = [];
+    var Overweight = [];
+    var Normal = [];
+    var Obese = [];
+    var NormalWeight = [];
+
+    const api = new API_lib("https://API.indoprogmr.my.id");
+
+    function dynamicColors() {
+        const r = Math.floor(Math.random() * 255);
+        const g = Math.floor(Math.random() * 255);
+        const b = Math.floor(Math.random() * 255);
+        return `rgba(${r}, ${g}, ${b}, 0.5)`;
+    }
+
+    async function GetData() {
+        labelData = [];
+        Overweight = [];
+        Normal = [];
+        Obese = [];
+        NormalWeight = [];
+
+        const data = await api.get(url);
+        data.forEach((dataa) => {
+            labelData.push(dataa.Lable);
+            Overweight.push(dataa.Overweight);
+            Normal.push(dataa.Normal);
+            Obese.push(dataa.Obese);
+            NormalWeight.push(dataa.NormalWeight);
+        });
+
+        for (let index = 0; index <= 3; index++) {
+            BGcolor.push(dynamicColors());
+        }
+
+        LoadChar();
+    }
+    function LoadChar() {
+        // Setelah data dimasukkan, buat grafik
+        const chart = new Chart("myCanvas", {
+            type: "bar",
+            data: {
+                labels: labelData,
+                datasets: [
+                    {
+                        label: "Overweight",
+                        data: Overweight,
+                        backgroundColor: BGcolor[0],
+                        borderWidth: 1,
+                    },
+                    {
+                        label: "Normal",
+                        data: Normal,
+                        backgroundColor: BGcolor[1],
+                        borderWidth: 1,
+                    },
+                    {
+                        label: "Obese",
+                        data: Obese,
+                        backgroundColor: BGcolor[2],
+                        borderWidth: 1,
+                    },
+                    {
+                        label: "Normal Weight",
+                        data: NormalWeight,
+                        backgroundColor: BGcolor[3],
+                        borderWidth: 1,
+                    },
+                ],
+            },
+
+            options: {
+                title: {
+                    display: false,
+                    text: "Pekerjaan",
+                },
+                responsive: true,
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true,
+                    },
+                },
+            },
+        });
+    }
+
+    GetData();
+</script>
+{% endblock %}

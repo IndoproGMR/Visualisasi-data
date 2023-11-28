@@ -7,6 +7,21 @@
                     <h6><a href="#">Korelasi Quality dengan lama Tidur</a></h6>
                 </div>
                 <div class="chartCanvas">
+                    <canvas id="QualityofSleep"></canvas>
+                </div>
+                <div class="Keterangan">
+                    Dapat Dilihat pada Titik Hitam dimana Korelasi lebih
+                    terlihat
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
+                    <h6><a href="#">Korelasi Quality dengan lama Tidur</a></h6>
+                </div>
+                <div class="chartCanvas">
                     <canvas id="myCanvas"></canvas>
                 </div>
                 <div class="Keterangan">
@@ -20,12 +35,15 @@
 
 {% endblock %} {% block jsF %}
 <script>
-    const url = "SleepQuality/QualityWithDuration";
     const api = new API_lib("https://API.indoprogmr.my.id");
 
     var xValues = [];
     var yValues = [];
     var BGcolor = [];
+
+    var xQualityofSleep = [];
+    var yQualityofSleep = [];
+    var BGcolorQualityofSleep = [];
 
     function dynamicColors() {
         const r = Math.floor(Math.random() * 255);
@@ -39,17 +57,30 @@
         yValues = [];
         BGcolor = [];
 
-        const dataResponse = await api.get(url);
+        xQualityofSleep = [];
+        yQualityofSleep = [];
+        BGcolorQualityofSleep = [];
+
+        const dataResponse = await api.get("SleepQuality/QualityWithDuration");
         dataResponse.forEach((data) => {
             xValues.push(data.X);
             yValues.push(data.Y);
             BGcolor.push(dynamicColors());
         });
 
-        LoadChar(xValues, yValues, BGcolor);
+        const dataResponseQualityofSleep = await api.get(
+            "Count/QualityofSleep"
+        );
+        dataResponseQualityofSleep.forEach((data) => {
+            xQualityofSleep.push(data.X);
+            yQualityofSleep.push(data.Y);
+            BGcolorQualityofSleep.push(dynamicColors());
+        });
+
+        LoadChar();
     }
 
-    function LoadChar(xValues, yValues, BGcolor) {
+    function LoadChar() {
         // Setelah data dimasukkan, buat grafik
         const chart = new Chart("myCanvas", {
             type: "scatter",
@@ -88,6 +119,35 @@
                         },
                     },
                 },
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+            },
+        });
+
+        const QualityofSleep = new Chart("QualityofSleep", {
+            type: "bar",
+            data: {
+                labels: xQualityofSleep,
+                datasets: [
+                    {
+                        label: "Sleep Quality with Duration",
+                        data: yQualityofSleep,
+                        backgroundColor: BGcolorQualityofSleep,
+                    },
+                ],
+            },
+
+            options: {
+                // title: {
+                //     display: true,
+                //     text: "Sleep Quality with Duration",
+                // },
+
+                responsive: true,
+
                 plugins: {
                     legend: {
                         display: false,

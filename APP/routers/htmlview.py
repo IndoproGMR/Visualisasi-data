@@ -26,3 +26,8 @@ async def Pekerjaan(request: Request):
 @router.get("/SleepQuality", response_class=HTMLResponse)
 async def SleepQuality(request: Request):
     return view(request, "view/SleepQuality.html")
+
+
+@router.get("/StressLevel", response_class=HTMLResponse)
+async def StressLevel(request: Request):
+    return view(request, "view/StreesLvl.html")

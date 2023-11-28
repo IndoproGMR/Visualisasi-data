@@ -7,6 +7,7 @@ from APP.routers import Occupation
 from APP.routers import htmlview
 from APP.routers import Index_Counts
 from APP.routers import SleepQuality
+from APP.routers import StreesLvl
 
 
 app = FastAPI()
@@ -28,3 +29,4 @@ app.include_router(Occupation.router)
 app.include_router(htmlview.router)
 app.include_router(Index_Counts.router)
 app.include_router(SleepQuality.router)
+app.include_router(StreesLvl.router)

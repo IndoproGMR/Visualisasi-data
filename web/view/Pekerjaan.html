@@ -7,6 +7,18 @@
                     <h6><a href="/">Pekerjaan Dengan Sleep</a></h6>
                 </div>
                 <div class="chartCanvas">
+                    <canvas id="Occupation"></canvas>
+                </div>
+                <div class="Keterangan">ini untuk Keterangan</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="Chart bigChart">
+                <div class="ChartHeader">
+                    <h6><a href="/">Pekerjaan Dengan Sleep</a></h6>
+                </div>
+                <div class="chartCanvas">
                     <canvas id="myCanvas"></canvas>
                 </div>
                 <div class="Keterangan">ini untuk Keterangan</div>
@@ -26,6 +38,10 @@
     var None = [];
     var SleepApnea = [];
 
+    var xOccupation = [];
+    var yOccupation = [];
+    var BGcolorOccupation = [];
+
     const api = new API_lib("https://API.indoprogmr.my.id");
 
     async function GetData() {
@@ -34,12 +50,23 @@
         None = [];
         SleepApnea = [];
 
+        xOccupation = [];
+        yOccupation = [];
+        BGcolorOccupation = [];
+
         const data = await api.get(url);
         data.forEach((dataa) => {
             labelData.push(dataa.Lable);
             Insomnia.push(dataa.Insomnia);
             None.push(dataa.None);
             SleepApnea.push(dataa.SleepApnea);
+        });
+
+        const dataResponseOccupation = await api.get("Count/Occupation");
+        dataResponseOccupation.forEach((data) => {
+            xOccupation.push(data.X);
+            yOccupation.push(data.Y);
+            BGcolorOccupation.push(dynamicColors());
         });
 
         for (let index = 0; index <= 2; index++) {
@@ -89,6 +116,51 @@
                     },
                     y: {
                         stacked: true,
+                    },
+                },
+            },
+        });
+
+        const Occupation = new Chart("Occupation", {
+            type: "bar",
+            data: {
+                labels: xOccupation,
+                datasets: [
+                    {
+                        label: "Sleep Quality with Duration",
+                        data: yOccupation,
+                        backgroundColor: BGcolorOccupation,
+                    },
+                ],
+            },
+
+            options: {
+                responsive: true,
+
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (tooltipItem, data) => {
+                                const dataset =
+                                    data.datasets[tooltipItem.datasetIndex];
+                                const total = dataset.data.reduce(
+                                    (accumulator, currentValue) =>
+                                        accumulator + currentValue,
+                                    0
+                                );
+                                const currentValue =
+                                    dataset.data[tooltipItem.index];
+                                const percentage = Math.round(
+                                    (currentValue / total) * 100
+                                );
+                                return `${
+                                    data.labels[tooltipItem.index]
+                                }: ${percentage}%`;
+                            },
+                        },
                     },
                 },
             },
